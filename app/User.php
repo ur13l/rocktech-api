@@ -8,8 +8,10 @@ use Illuminate\Notifications\Notifiable;
 use Carbon\Carbon;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 
-class User extends Authenticatable
+
+class User extends Authenticatable implements CanResetPasswordContract
 {
     use HasApiTokens, Notifiable, SoftDeletes;
 

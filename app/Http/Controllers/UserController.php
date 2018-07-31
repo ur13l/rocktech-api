@@ -69,6 +69,7 @@ class UserController extends Controller
         $user->neuron_id = $neuron->id;
         $user->save();
         $user->notify(new RegisterNotification());
+        $user->token_ =  $user->createToken('rocktech')->accessToken;        
         return new UserResource($user);
     }
 

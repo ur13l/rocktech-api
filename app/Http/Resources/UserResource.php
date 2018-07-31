@@ -17,7 +17,8 @@ class UserResource extends Resource
             'id' => $this->id,
             'email' => $this->email, 
             'name' => $this->name,
-            'neuron' => $this->neuron
+            'neuron' => $this->neuron,
+            'token' => $this->token_
         ];     
     }
 }
