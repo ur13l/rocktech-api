@@ -13,31 +13,11 @@ class RolesSeeder extends Seeder
     {
         DB::table('rol')->insert([
             'id' => 1,
-            'nombre' => 'Master',
+            'nombre' => 'Admin',
         ]);
         DB::table('rol')->insert([
             'id' => 2,
-            'nombre' => 'Admin WA',
-        ]);
-        DB::table('rol')->insert([
-            'id' => 3,
-            'nombre' => 'Admin Cliente',
-        ]);
-        DB::table('rol')->insert([
-            'id' => 4,
-            'nombre' => 'Admin Sucursal',
-        ]);
-        DB::table('rol')->insert([
-            'id' => 5,
-            'nombre' => 'Entrenador',
-        ]);
-        DB::table('rol')->insert([
-            'id' => 6,
-            'nombre' => 'Atleta',
-        ]);
-        DB::table('rol')->insert([
-            'id' => 7,
-            'nombre' => 'Caja',
+            'nombre' => 'User',
         ]);
     }
 }

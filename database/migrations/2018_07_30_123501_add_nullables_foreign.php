@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AlterNullableIdTipoAplicacion extends Migration
+class AddNullablesForeign extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,8 @@ class AlterNullableIdTipoAplicacion extends Migration
      */
     public function up()
     {
-        Schema::table('descuento', function(Blueprint $table) {
-            $table->integer('id_tipo_aplicacion_descuento')->unsigned()->nullable()->change();
-            $table->integer('id_tipo_descuento')->unsigned()->nullable()->change();
+        Schema::table('users', function($table) {
+            $table->integer('neuron_id')->unsigned()->nullable()->change();
         });
     }
 

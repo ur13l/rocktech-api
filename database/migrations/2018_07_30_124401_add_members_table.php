@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class RemoveTipoUsuario extends Migration
+class AddMembersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,11 @@ class RemoveTipoUsuario extends Migration
      */
     public function up()
     {
-        Schema::table('users', function(Blueprint $table) {
-            $table->dropForeign(['id_tipo_usuario']);
-            $table->dropColumn('id_tipo_usuario');
+        Schema::create('members', function($table) {
+            $table->increments('id');
+            $table->string('name');
+            $table->timestamps();
+            $table->softDeletes();
         });
     }
 

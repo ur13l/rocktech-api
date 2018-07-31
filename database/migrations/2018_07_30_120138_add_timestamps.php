@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateTableTipoEjercicio extends Migration
+class AddTimestamps extends Migration
 {
     /**
      * Run the migrations.
@@ -13,16 +13,18 @@ class CreateTableTipoEjercicio extends Migration
      */
     public function up()
     {
-        Schema::create('tipo_ejercicio', function(Blueprint $table) {
-            $table->increments('id');
-            $table->string('nombre');
+        Schema::table('users',function($table) {
+            $table->softDeletes();
+        });
+
+        Schema::table('neurons', function($table) {
             $table->timestamps();
             $table->softDeletes();
         });
 
-        Schema::table('ejercicio', function(Blueprint $table) {
-            $table->integer('id_tipo_ejercicio')->unsigned()->nullable();
-            $table->foreign('id_tipo_ejercicio')->references('id')->on('tipo_ejercicio');
+        Schema::table('projects', function($table) {
+            $table->timestamps();
+            $table->softDeletes();
         });
     }
 

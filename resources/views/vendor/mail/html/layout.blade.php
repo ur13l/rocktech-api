@@ -6,6 +6,22 @@
 </head>
 <body>
     <style>
+        @font-face{
+        font-family: gotham-light;
+        src: url('/fonts/Gotham-Light.otf');
+        }
+        .wrapper{
+            background-color: #002751 !important;
+        }
+
+        * {
+            font-family: gotham-light !important;
+        }
+
+        .header {
+            color: #fff
+        }
+        
         @media only screen and (max-width: 600px) {
             .inner-body {
                 width: 100% !important;

@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddMembresiaFields extends Migration
+class AddActiveUsers extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,8 @@ class AddMembresiaFields extends Migration
      */
     public function up()
     {
-        Schema::table('membresia', function(Blueprint $table) {
-            $table->string('nombre');
-            $table->dropColumn('divisa');
-            $table->dropColumn('puntos_por_membresia');
+        Schema::table('users', function($table) {
+            $table->boolean('active')->default(false);
         });
     }
 
