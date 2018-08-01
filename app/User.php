@@ -21,7 +21,7 @@ class User extends Authenticatable implements CanResetPasswordContract
      * @var array
      */
     protected $fillable = [
-        'email', 'password', 'name', 'active', 'id_rol', 'neuron_id'
+        'email', 'password', 'name', 'active', 'id_rol', 'neuron_id', 'verify_token'
     ];
 
     protected $dates = [];

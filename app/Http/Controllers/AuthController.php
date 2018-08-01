@@ -23,7 +23,7 @@ class AuthController extends Controller
         if(Auth::attempt(['email' => request('email'), 'password' => request('password')])){
             $user = Auth::user();
             if($user->active) {
-                $user->token_ =  $user->createToken('MyApp')->accessToken;
+                $user->token_ =  $user->createToken('rocktech')->accessToken;
                 return new UserResource($user);
             }
             return $this->error(["Tu cuenta no ha sido activada, por favor revisa tu correo electrónico para realizar el proceso de activación"]);

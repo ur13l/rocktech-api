@@ -16,9 +16,9 @@ class RegisterNotification extends Notification
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($user)
     {
-        //
+        $this->user = $user;
     }
 
     /**
@@ -48,7 +48,7 @@ class RegisterNotification extends Notification
                         . 'y nosotros nos haremos cargo de informarte si tu idea cumple con los requerimientos para pasar a la siguiente etapa.')
                     ->line(' Si deseas verificar el estatus de tu idea, por favor, valida este correo dando click en el botón Activar cuenta, solo debes hacerlo una vez'
                         . ' y a partir de ese momento podrás entrar a rocktech.mx, iniciar sesión y ver en qué etapa se encuentra tu idea.')
-                    ->action('Activa tu cuenta', url('/activate'))
+                    ->action('Activa tu cuenta', env('APP_URL') ."activar/" . $this->user->verify_token)
                     ->line('Seguiremos en contacto, saludos');
     }
 

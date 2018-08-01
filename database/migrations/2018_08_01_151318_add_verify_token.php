@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddNullablesForeign extends Migration
+class AddVerifyToken extends Migration
 {
     /**
      * Run the migrations.
@@ -14,10 +14,8 @@ class AddNullablesForeign extends Migration
     public function up()
     {
         Schema::table('users', function($table) {
-            $table->integer('neuron_id')->unsigned()->nullable()->change();
+            $table->string('verify_token');
         });
-
-        
     }
 
     /**

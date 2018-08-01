@@ -27,6 +27,7 @@ Route::group(['middleware' => ['cors']], function() {
 
     Route::group(['prefix' => 'user'], function() {
         Route::post('register', 'UserController@register');
+        Route::post('activate', 'UserController@activateUser');
     });
 
     Route::group(['prefix' => 'rol', 'middleware'=> ['cors']], function() {

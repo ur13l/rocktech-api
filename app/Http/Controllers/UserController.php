@@ -51,7 +51,9 @@ class UserController extends Controller
         $p = $request->project;
 
         $user = User::create(
-            $u + ['id_rol' => 2]
+            $u + 
+            ['id_rol' => 2,
+            'verify_token' => str_random(250)]
         );
         $neuron = Neuron::create(
             $n + ['leader_id' => $user->id]
@@ -68,10 +70,39 @@ class UserController extends Controller
 
         $user->neuron_id = $neuron->id;
         $user->save();
-        $user->notify(new RegisterNotification());
+        $user->notify(new RegisterNotification($user));
         $user->token_ =  $user->createToken('rocktech')->accessToken;        
         return new UserResource($user);
     }
+
+    /**
+     * Method to activate a user in the database.
+     */
+    public function activateUser(Request $request) {
+        //Validation rules
+        $rules = [
+            'token' => 'required'
+        ];
+
+        //Validation errors
+        $errors = $this->validate($request->all(), $rules);
+        if(count($errors) > 0) {
+            return $this->error($errors);
+        }
+
+        //Checks if the provided token is valid
+        $u = User::where('verify_token', $request->token)->first();
+        if($u) {
+            $u->active = true;
+            $u->save();
+            return response()->json([
+                'data' => true
+            ]);
+        }
+        return $this->error(['El token es inválido']);
+
+        }
+
 
     /**
      * User: Store
