@@ -17,6 +17,8 @@ Route::middleware('cors')->options('{any?}', function ($any = null) {
     return response("", 200);
 })->where('any', '.*');
 
+Route::middleware('cors')->post('reset/email', 'Auth\ForgotPasswordController@sendResetLinkEmail');
+Route::middleware('cors')->post('reset/password', 'Auth\ResetPasswordController@reset')->name('password.reset');
 
 Route::group(['prefix' => 'auth', 'middleware' => ['cors']], function(){
     Route::post('login', 'AuthController@login');
@@ -24,6 +26,9 @@ Route::group(['prefix' => 'auth', 'middleware' => ['cors']], function(){
 
 //
 Route::group(['middleware' => ['cors']], function() {
+
+
+    
 
     Route::group(['prefix' => 'user'], function() {
         Route::post('register', 'UserController@register');
