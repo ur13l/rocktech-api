@@ -1,0 +1,59 @@
+language: php
+php:
+- 7.2
+branches:
+  only:
+  - master
+  - test
+  - prod
+cache:
+  directories:
+  - "$HOME/google-cloud-sdk/"
+before_script:
+- gcloud version || true
+- if [ ! -d "$HOME/google-cloud-sdk" ]; then export CLOUD_SDK_REPO="cloud-sdk-$(lsb_release
+  -c -s)"; echo "deb http://packages.cloud.google.com/apt $CLOUD_SDK_REPO main" |
+  sudo tee -a /etc/apt/sources.list.d/google-cloud-sdk.list; curl https://packages.cloud.google.com/apt/doc/apt-key.gpg
+  | sudo apt-key add - ; sudo apt-get update && sudo apt-get install google-cloud-sdk;
+  fi
+- tar -xzf credentials.tar.gz
+- ssh-keygen -q -N "" -f ~/.ssh/google_compute_engine
+- gcloud config set project 'rocktech-210118'
+stages:
+- name: test
+  if: branch = test
+- name: prod
+  if: branch = prod
+jobs:
+  include:
+  - stage: test
+    script:
+    - mv .env.test .env
+    - composer self-update
+    - composer install --no-interaction
+    - gcloud compute scp --recurse . jorge_diaz@rocktech:/var/www/html/rocktech-api-test-temp
+      --zone us-east1-b
+    - gcloud auth activate-service-account --key-file client-secret.json
+    - gcloud compute ssh jorge_diaz@rocktech --zone us-east1-b -- '(rm -rf /var/www/html/rocktech-api-test
+      || true) && mkdir /var/www/html/rocktech-api-test && mv /var/www/html/rocktech-api-test-temp
+      /var/www/html/rocktech-api-test && chmod -R 777 .'
+  - stage: prod
+    script:
+    - mv .env.prod .env
+    - composer self-update
+    - composer install --no-interaction
+    - gcloud compute scp --recurse . jorge_diaz@rocktech:/var/www/html/rocktech-api-temp
+      --zone us-east1-b
+    - gcloud auth activate-service-account --key-file client-secret.json
+    - gcloud compute ssh jorge_diaz@rocktech --zone us-east1-b -- '(rm -rf /var/www/html/rocktech-api
+      || true) && mkdir /var/www/html/rocktech-api && mv /var/www/html/rocktech-api-temp
+      /var/www/html/rocktech-api && chmod -R 777 .'
+notifications: 
+email:
+  on_failure: change
+  on_success: change
+before_install:
+- openssl aes-256-cbc -K $encrypted_25e1f72e3c41_key -iv $encrypted_25e1f72e3c41_iv
+  -in credentials.tar.gz.enc -out credentials.tar.gz -d
+- openssl aes-256-cbc -K $encrypted_0024339acafd_key -iv $encrypted_0024339acafd_iv
+  -in credentials.tar.gz.enc -out credentials.tar.gz -d
