@@ -32,7 +32,6 @@ class UserController extends Controller
     public function register(Request $request) {
         //Agregar reglas de validación.
         $rules = [
-            'user.name' => 'required',
             'user.email' => 'required|email|unique:users,email',
             'user.password' => 'required',
             'neuron.name' => 'required',
