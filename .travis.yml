@@ -19,6 +19,7 @@ before_script:
 - tar -xzf credentials.tar.gz
 - ssh-keygen -q -N "" -f ~/.ssh/google_compute_engine
 - gcloud config set project 'rocktech-210118'
+- gcloud auth activate-service-account --key-file client-secret.json
 stages:
 - name: test
   if: branch = test
@@ -33,7 +34,6 @@ jobs:
     - composer install --no-interaction
     - gcloud compute scp --recurse . jorge_diaz@rocktech:/var/www/html/rocktech-api-test-temp
       --zone us-east1-b
-    - gcloud auth activate-service-account --key-file client-secret.json
     - gcloud compute ssh jorge_diaz@rocktech --zone us-east1-b -- '(rm -rf /var/www/html/rocktech-api-test
       || true) && mkdir /var/www/html/rocktech-api-test && mv /var/www/html/rocktech-api-test-temp
       /var/www/html/rocktech-api-test && chmod -R 777 .'
@@ -44,7 +44,6 @@ jobs:
     - composer install --no-interaction
     - gcloud compute scp --recurse . jorge_diaz@rocktech:/var/www/html/rocktech-api-temp
       --zone us-east1-b
-    - gcloud auth activate-service-account --key-file client-secret.json
     - gcloud compute ssh jorge_diaz@rocktech --zone us-east1-b -- '(rm -rf /var/www/html/rocktech-api
       || true) && mkdir /var/www/html/rocktech-api && mv /var/www/html/rocktech-api-temp
       /var/www/html/rocktech-api && chmod -R 777 .'
