@@ -10,6 +10,7 @@ use App\User;
 use App\Neuron;
 use App\Project;
 use App\Member;
+use App\Notifications\ApprovedIdeaNotification;
 use App\Notifications\RegisterNotification;
 use App\Http\Resources\UserResource;
 /**
@@ -183,13 +184,13 @@ class UserController extends Controller
     /**
      * User: Index
      * Método para mostrar una lista de User
-     * params: [page, id_rol]
+     * params: []
      * @param Request $request
      * @return Response
      */
     public function index(Request $request)
     {
-        $data = User::where('id_rol', $request->id_rol)->paginate(10);
+        $data = User::orderBy('updated_at','desc')->get();
         return UserResource::collection($data);
     }
 
@@ -206,6 +207,22 @@ class UserController extends Controller
         if(!$data) {
             return $this->error(["Objeto no encontrado"]);
         }
+        return new UserResource($data);
+    }
+
+    public function approve(Request $request) {
+        //Agregar reglas de validación.
+        $rules = [
+            'id' => 'required|exists:users'
+        ];
+        $errors = $this->validate($request->all(), $rules);
+        if(count($errors) > 0) {
+            return $this->error($errors);
+        }
+        $data = User::find($request->id);
+        $data->approved = true;
+        $data->save();
+        $data->notify(new ApprovedIdeaNotification());
         return new UserResource($data);
     }
 

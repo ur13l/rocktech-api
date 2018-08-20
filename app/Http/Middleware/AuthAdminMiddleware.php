@@ -3,12 +3,10 @@
 namespace App\Http\Middleware;
 
 use Closure;
-use Illuminate\Routing\Route;
-use App\Permiso;
 use Auth;
-use App\Rol;
+use App\User;
 
-class CheckRoleMiddleware
+class AuthAdminMiddleware
 {
     /**
      * Handle an incoming request.
@@ -19,16 +17,14 @@ class CheckRoleMiddleware
      */
     public function handle($request, Closure $next)
     {
-        $ruta = $request->route()->uri();
-        $permiso = Permiso::where('ruta', $ruta)->first();
-        $user = Auth::user();
-        $rol = $user->rol;
-        if($rol->permisos->contains($permiso->id)) {
+        $user = Auth::guard('api')->user();
+        $role = $user->id_rol;
+        if($user && $role == User::ROLE_ADMIN) {
             return $next($request);
         }
         return response()->json([
             'success' => false,
-            'errors' => ['Permiso denegado'],
+            'errors' => ['Permiso denegado, función solo para administradores'],
             'data' => null
         ]);
     }

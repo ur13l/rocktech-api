@@ -35,6 +35,13 @@ Route::group(['middleware' => ['cors']], function() {
         Route::post('activate', 'UserController@activateUser');
     });
 
+    Route::group(['prefix' => 'user', 'middleware'=>'auth.admin'], function () {
+        Route::get('/', 'UserController@index'); 
+        Route::get('/{id}', 'UserController@show');
+        Route::post('/approve', 'UserController@approve');
+        
+    });
+
     Route::group(['prefix' => 'rol', 'middleware'=> ['cors']], function() {
         Route::post('store', 'RolController@store');
         Route::post('update', 'RolController@update');

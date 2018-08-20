@@ -15,6 +15,8 @@ use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 class User extends Authenticatable implements CanResetPasswordContract
 {
     use HasApiTokens, Notifiable, SoftDeletes;
+    public const ROLE_ADMIN = 1;
+    public const ROLE_USER = 2;
 
     /**
      * The attributes that are mass assignable.
@@ -22,7 +24,7 @@ class User extends Authenticatable implements CanResetPasswordContract
      * @var array
      */
     protected $fillable = [
-        'email', 'password', 'name', 'active', 'id_rol', 'neuron_id', 'verify_token'
+        'email', 'password', 'name', 'active', 'id_rol', 'neuron_id', 'verify_token', 'approved', 'city', 'state', 'country', 'phone', 'social_network'
     ];
 
     protected $dates = [];

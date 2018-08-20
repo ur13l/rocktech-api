@@ -18,7 +18,14 @@ class UserResource extends Resource
             'email' => $this->email, 
             'name' => $this->name,
             'neuron' => $this->neuron,
-            'token' => $this->token_
+            'role' => $this->id_rol,
+            'token' => $this->token_,
+            'approved' => $this->approved,
+            'city' => $this->city,
+            'state' => $this->state,
+            'country' => $this->country,
+            'phone' => $this->phone,
+            'social_network' => $this->social_network,
         ];     
     }
 }

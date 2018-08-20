@@ -17,7 +17,7 @@ class Project extends Model
     /**
      * @var array
      */
-    protected $fillable = ['neuron_id', 'name', 'video', 'objective'];
+    protected $fillable = ['neuron_id', 'name', 'video', 'objective', 'info', 'stage', 'doc'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
