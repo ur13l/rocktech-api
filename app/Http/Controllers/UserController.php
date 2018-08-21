@@ -235,6 +235,7 @@ class UserController extends Controller
         $p = $u->neuron->project;
         $p->info = $request->neuron['project']['info'];
         $p->stage = $request->neuron['project']['stage'];
+        $p->doc = $request->neuron['project']['doc'];
         $u->idea_complementation = true;
         $u->save();
         $p->save();
