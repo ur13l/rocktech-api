@@ -39,6 +39,7 @@ Route::group(['middleware' => ['cors']], function() {
         Route::get('/', 'UserController@index'); 
         Route::get('/{id}', 'UserController@show');
         Route::post('/approve', 'UserController@approve');
+        Route::post('/idea-complementation', 'UserController@ideaComplementation');
         
     });
 

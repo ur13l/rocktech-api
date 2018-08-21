@@ -26,6 +26,9 @@ class UserResource extends Resource
             'country' => $this->country,
             'phone' => $this->phone,
             'social_network' => $this->social_network,
+            'complementary' => $this->complementary,
+            'idea_complementation' => $this->idea_complementation,
+            'idea_validation' => $this->idea_validation,
         ];     
     }
 }

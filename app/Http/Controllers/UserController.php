@@ -226,4 +226,19 @@ class UserController extends Controller
         return new UserResource($data);
     }
 
+    /**
+     * When the user complete the second form.
+     */
+    public function ideaComplementation(Request $request) {
+        $u = Auth::guard('api')->user();
+        $u->update($request->all());
+        $p = $u->neuron->project;
+        $p->info = $request->neuron['project']['info'];
+        $p->stage = $request->neuron['project']['stage'];
+        $u->idea_complementation = true;
+        $u->save();
+        $p->save();
+        return new UserResource($u);
+    }
+
 }
