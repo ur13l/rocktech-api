@@ -11,6 +11,7 @@ use App\Neuron;
 use App\Project;
 use App\Member;
 use App\Notifications\ApprovedIdeaNotification;
+use App\Notifications\ValidateIdeaNotification;
 use App\Notifications\RegisterNotification;
 use App\Http\Resources\UserResource;
 /**
@@ -210,6 +211,9 @@ class UserController extends Controller
         return new UserResource($data);
     }
 
+    /**
+     * Works for the approval of the user.
+     */
     public function approve(Request $request) {
         //Agregar reglas de validación.
         $rules = [
@@ -240,6 +244,25 @@ class UserController extends Controller
         $u->save();
         $p->save();
         return new UserResource($u);
+    }
+
+    /**
+     * Validation of the idea
+     */
+    public function validateIdea(Request $request) {
+        //Agregar reglas de validación.
+        $rules = [
+            'id' => 'required|exists:users'
+        ];
+        $errors = $this->validate($request->all(), $rules);
+        if(count($errors) > 0) {
+            return $this->error($errors);
+        }
+        $data = User::find($request->id);
+        $data->idea_validation = true;
+        $data->save();
+        $data->notify(new ValidateIdeaNotification());
+        return new UserResource($data);
     }
 
 }
