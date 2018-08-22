@@ -193,7 +193,7 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {
-        $data = User::orderBy('updated_at','desc')->get();
+        $data = User::where('id_rol', '!=', User::ROLE_ADMIN)->orderBy('updated_at','desc')->get();
         return UserResource::collection($data);
     }
 
