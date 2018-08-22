@@ -33,16 +33,18 @@ jobs:
     - gcloud compute scp --recurse . jorge_diaz@rocktech:/var/www/html/rocktech-api-test-temp
       --zone us-east1-b
     - gcloud compute ssh jorge_diaz@rocktech --zone us-east1-b -- '(sudo rm -rf /var/www/html/rocktech-api-test
-      || true) && mv /var/www/html/rocktech-api-test-temp
-      /var/www/html/rocktech-api-test && cd /var/www/html/rocktech-api-test && sudo chmod -R 777 . && composer install --no-interaction && php artisan migrate --no-interaction'
+      || true) && mv /var/www/html/rocktech-api-test-temp /var/www/html/rocktech-api-test
+      && cd /var/www/html/rocktech-api-test && sudo chmod -R 777 . && composer install
+      --no-interaction && php artisan migrate --no-interaction'
   - stage: prod
     script:
     - mv .env.prod .env
     - gcloud compute scp --recurse . jorge_diaz@rocktech:/var/www/html/rocktech-api-temp
       --zone us-east1-b
     - gcloud compute ssh jorge_diaz@rocktech --zone us-east1-b -- '(sudo rm -rf /var/www/html/rocktech-api
-      || true) && mv /var/www/html/rocktech-api-temp
-      /var/www/html/rocktech-api && cd /var/www/html/rocktech-api && sudo chmod -R 777 . && composer install --no-interaction && php artisan migrate --no-interaction'
+      || true) && mv /var/www/html/rocktech-api-temp /var/www/html/rocktech-api &&
+      cd /var/www/html/rocktech-api && sudo chmod -R 777 . && composer install --no-interaction
+      && php artisan migrate --no-interaction'
 notifications: 
 email:
   on_failure: change

@@ -13,6 +13,7 @@ use App\Member;
 use App\Notifications\ApprovedIdeaNotification;
 use App\Notifications\ValidateIdeaNotification;
 use App\Notifications\RegisterNotification;
+use App\Notifications\NewEntryNotification;
 use App\Http\Resources\UserResource;
 /**
  * Class: User Controller
@@ -73,6 +74,8 @@ class UserController extends Controller
         $user->save();
         $user->notify(new RegisterNotification($user));
         $user->token_ =  $user->createToken('rocktech')->accessToken;        
+        $admin = User::where('email' ,'uriel.infante@dlsvc.com.mx')->first();
+        $admin->notify(new NewEntryNotification($user));
         return new UserResource($user);
     }
 
@@ -136,7 +139,6 @@ class UserController extends Controller
         $data = User::create($request_data);
         $data->updateOpenpayData();
         $data->token_=$data->createToken('MyApp')->accessToken;
-
         return new UserResource($data);
     }
 
