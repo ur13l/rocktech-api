@@ -13,6 +13,6 @@
 
 Route::get('/permisos','PermisosController@index');
 Route::post('/updatePermiso','PermisosController@updatePermiso');
-Route::post('/evento', function() {
+Route::get('/evento', function() {
     return view('evento');
 });
