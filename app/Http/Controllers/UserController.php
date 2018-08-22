@@ -245,6 +245,9 @@ class UserController extends Controller
         $u->idea_complementation = true;
         $u->save();
         $p->save();
+               
+        $admin = User::where('email' ,'uriel.infante@dlsvc.com.mx')->first();
+        $admin->notify(new NewEntryNotification($u));
         return new UserResource($u);
     }
 
